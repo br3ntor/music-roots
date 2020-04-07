@@ -1,0 +1,38 @@
+.SettingsButton {
+  width: 60px;
+  cursor: pointer;
+  fill: #d1d1d1;
+  transition-property: fill;
+  transition-duration: 0.5s;
+}
+
+.disabled-SettingsButton {
+  width: 60px;
+  cursor: not-allowed;
+  fill: #555555;
+  transition-property: fill;
+  transition-duration: 0.5s;
+}
+
+.SettingsButton:hover {
+  fill: #92dbb9;
+}
+
+.SettingsButton:active {
+  fill: aquamarine;
+}
+
+.CloseButton {
+  width: 60px;
+  cursor: pointer;
+  fill: #d1d1d1;
+  margin-top: 60px;
+}
+
+.CloseButton:hover {
+  fill: #92dbb9;
+}
+
+.CloseButton:active {
+  fill: aquamarine;
+}

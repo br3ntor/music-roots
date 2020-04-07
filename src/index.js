@@ -1,14 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+// import './index.css';
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
 
+// React.StrictMode causes my compenent to render twice, as I suspected this is build in functionality
+// but since I am monitoring so closesly how React is rendering it really stood out. I can probably turn
+// strict mode on here and there to check if it can catch anything. Here is a link to the github issue
+// answered by Dan Abrimov WOW! https://github.com/facebook/react/issues/15074
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  // <React.StrictMode>
+  <App />,
+  // </React.StrictMode>,
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

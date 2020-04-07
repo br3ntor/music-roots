@@ -1,0 +1,91 @@
+.Notes {
+  position: relative;
+  height: 30%;
+  width: 100%;
+  max-width: 1400px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+
+  user-select: none;
+  background-color: #2f2f2f;
+}
+
+.note {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 10px;
+  color: rgb(209, 209, 209);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30px;
+}
+
+.prev {
+  position: absolute;
+  height: 60px;
+  width: 60px;
+  right: 100%;
+  transform: translate(100%);
+  transition: all 0.3s ease-in-out;
+
+  color: #2f2f2f;
+}
+
+.prev sup {
+  font-size: 25px;
+  transition: font-size 0.3s ease-in-out;
+}
+
+.current {
+  position: absolute;
+  right: 50%;
+  transform: translate(50%);
+  height: 400px;
+  width: 320px;
+  transition: all 0.3s ease-in-out;
+  font-size: 200px;
+  background-color: #2c966d;
+}
+
+.current sup {
+  font-size: 100px;
+  transition: font-size 0.3s ease-in-out;
+}
+
+.next {
+  position: absolute;
+  right: 0;
+  height: 60px;
+  width: 60px;
+  transition: all 0.3s ease-in-out;
+
+  color: #5b5b5b;
+}
+
+.off-left {
+  position: absolute;
+  height: 60px;
+  width: 60px;
+  right: 150%;
+  transform: translate(150%);
+  transition: all 0.3s ease-in-out;
+}
+.off-right {
+  position: absolute;
+  right: -50%;
+  transform: translate(-50%);
+  height: 60px;
+  width: 60px;
+}
+
+/* prob rewrite these by moving to App.css */
+sup {
+  position: absolute;
+  top: -16px;
+}
+
+span {
+  position: relative;
+}

@@ -1,0 +1,47 @@
+.CountOff {
+  display: flex;
+  width: 300px;
+
+  justify-content: space-between;
+}
+
+.NumBox {
+  padding: 14px;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #5b5b5b;
+  border-radius: 10%;
+  border: 4px solid #5b5b5b;
+}
+
+.play-along {
+  border: 4px solid #2c966d;
+  color: #5b5b5b;
+}
+
+.highlight {
+  animation-name: flash;
+  animation-duration: 1s;
+}
+
+@keyframes flash {
+  from {
+    background-color: aquamarine;
+    color: #ffffff;
+  }
+}
+
+.highlight-count-off {
+  animation-name: countIn;
+  animation-duration: 1s;
+}
+
+@keyframes countIn {
+  from {
+    background-color: rgb(146, 146, 146);
+    color: #000000;
+  }
+}

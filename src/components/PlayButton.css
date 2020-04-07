@@ -1,0 +1,16 @@
+.PlayButton {
+  width: 100px;
+  cursor: pointer;
+}
+
+.play1 {
+  fill: #d1d1d1;
+}
+
+.PlayButton:hover .play1 {
+  fill: #92dbb9;
+}
+
+.PlayButton:active .play1 {
+  fill: aquamarine;
+}
