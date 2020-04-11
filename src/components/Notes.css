@@ -1,6 +1,6 @@
 .Notes {
   position: relative;
-  height: 30%;
+  height: 40%;
   width: 100%;
   max-width: 1400px;
   overflow: hidden;
@@ -17,7 +17,7 @@
   align-items: center;
 
   border-radius: 10px;
-  color: rgb(209, 209, 209);
+  /* color: rgb(209, 209, 209); */
   font-family: Arial, Helvetica, sans-serif;
   font-size: 30px;
 }
@@ -42,11 +42,13 @@
   position: absolute;
   right: 50%;
   transform: translate(50%);
-  height: 400px;
-  width: 320px;
+  height: 100%;
+  /* width: 320px; */
   transition: all 0.3s ease-in-out;
-  font-size: 200px;
-  background-color: #2c966d;
+  font-size: 170px;
+  color: rgb(209, 209, 209);
+
+  /* background-color: #2c966d; */
 }
 
 .current sup {
@@ -71,7 +73,9 @@
   right: 150%;
   transform: translate(150%);
   transition: all 0.3s ease-in-out;
+  color: #2f2f2f;
 }
+
 .off-right {
   position: absolute;
   right: -50%;
