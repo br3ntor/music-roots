@@ -37,6 +37,8 @@ console.log("outside MusicBox");
 
 export default function MusicBox(props) {
   const { bpm, toggleSettings, initialCountin, measureCount } = props;
+
+  // Using this state I need to write a function to handle swipes
   const [metronome, setMetronome] = useState({
     currentNotes: ["C", "G", "A", "D", "E"],
     positions: ["off-left", "prev", "current", "next", "off-right"],
