@@ -6,26 +6,12 @@ import CountOff from "../components/CountOff";
 import "./MusicBox.css";
 import * as Tone from "tone";
 
+import roots from "../libs/roots-lib";
+
 // Audio samples
 import audioSample from "../audio/woodblock.wav";
 
-const notesArray = [
-  "A",
-  "B",
-  "C",
-  "D",
-  "E",
-  "F",
-  "G",
-  "C#",
-  "F♯",
-  "A♭",
-  "B♭",
-  "C♭",
-  "D♭",
-  "E♭",
-  "G♭",
-];
+const notesArray = roots[0];
 
 Tone.Buffer.on("load", function () {
   console.log("samples loaded, I think");
@@ -40,7 +26,7 @@ export default function MusicBox(props) {
 
   // Using this state I need to write a function to handle swipes
   const [metronome, setMetronome] = useState({
-    currentNotes: ["C", "G", "A", "D", "E"],
+    currentNotes: ["Z", "X", notesArray[0], notesArray[1], notesArray[2]],
     positions: ["off-left", "prev", "current", "next", "off-right"],
   });
 
@@ -112,26 +98,28 @@ export default function MusicBox(props) {
       .stop(initialCountin + measureCount + "m");
 
     noteEvent.current = Tone.Transport.schedule(function (time) {
+      // FIXME: Should this Tone method be inside setMetronome instead?
+      // Intuitively I feel i should
       Tone.Draw.schedule(() => {
         // Using a setState to have react update and render the dom might not be
         // a precise way to trigger the animation. Might have to do it with a ref?
         setMetronome((freshState) => {
-          // Selects a random note from the notesArray that is not the same as the next note
-          const randomNote = () => {
-            const notesArrayCopy = [...notesArray];
-            const nextNote =
-              freshState.currentNotes[freshState.positions.indexOf("next")];
-            notesArrayCopy.splice(notesArray.indexOf(nextNote), 1);
-            const rNote =
-              notesArrayCopy[Math.floor(Math.random() * notesArrayCopy.length)];
-            return rNote;
-          };
-
-          // First copy the array, then get the index of the 'off-right' position
-          // Set the current note at that index to a new random note,
-          // TODO: Refactor to insert set from roots
           const notesCopy = [...freshState.currentNotes];
-          notesCopy[freshState.positions.indexOf("off-right")] = randomNote();
+
+          // Track which element in currentNotes which currently has "next" class
+          const nextClassIndex = freshState.positions.indexOf("next");
+          const nextNote = notesCopy[nextClassIndex];
+          console.log(nextNote);
+
+          // Use the above to find the nextNote in the roots-lib sequence
+          let noteToInject;
+          if (notesArray.indexOf(nextNote) === notesArray.length - 1) {
+            noteToInject = notesArray[0];
+          } else {
+            noteToInject = notesArray[notesArray.indexOf(nextNote) + 1];
+          }
+
+          notesCopy[freshState.positions.indexOf("off-right")] = noteToInject;
 
           // Old slice style to copy arr, not cool like the destructuring above
           // Next move the last element of the positions array to the front
@@ -140,7 +128,10 @@ export default function MusicBox(props) {
           const popped = positionCopy.pop();
           positionCopy.unshift(popped);
 
-          return { currentNotes: notesCopy, positions: positionCopy };
+          return {
+            currentNotes: notesCopy,
+            positions: positionCopy,
+          };
         });
       }, time);
     }, Tone.Time(initialCountin + measureCount + "m") - 0.2);
@@ -152,9 +143,6 @@ export default function MusicBox(props) {
         const bar = parseInt(Tone.Transport.position.split(":")[0]) + 1;
         const isCountInBeat = bar <= initialCountin;
 
-        // console.log(beatNum, bar, isCountInBeat);
-
-        // console.log(Tone.Transport.position);
         // TODO: Counoff needs to know if currentCount is countin or regular
         // setCurrentBeat({ beatNum: beatNum, isCountInBeat: isCountInBeat });
         setCurrentBeat({ beatNum, isCountInBeat });
