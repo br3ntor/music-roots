@@ -103,13 +103,14 @@ export default function MusicBox(props) {
       Tone.Draw.schedule(() => {
         // Using a setState to have react update and render the dom might not be
         // a precise way to trigger the animation. Might have to do it with a ref?
+        // I'm pretty sure this is fine. The fixme above is more on my mind atm
         setMetronome((freshState) => {
           const notesCopy = [...freshState.currentNotes];
 
           // Track which element in currentNotes which currently has "next" class
           const nextClassIndex = freshState.positions.indexOf("next");
           const nextNote = notesCopy[nextClassIndex];
-          console.log(nextNote);
+          // console.log(nextNote);
 
           // Use the above to find the nextNote in the roots-lib sequence
           let noteToInject;
@@ -119,9 +120,13 @@ export default function MusicBox(props) {
             noteToInject = notesArray[notesArray.indexOf(nextNote) + 1];
           }
 
+          // Modify the notesCopy array to feed it the next note from the roots list
+          // The note that corresponds with the "off-right" class will change, so this
+          // line finds which one that is and changes it to the new note from the
+          // roots-lib file
           notesCopy[freshState.positions.indexOf("off-right")] = noteToInject;
 
-          // Old slice style to copy arr, not cool like the destructuring above
+          // *Old slice style to copy arr, not cool like the destructuring above*
           // Next move the last element of the positions array to the front
           // The order these arrays are manipulated here is important
           const positionCopy = freshState.positions.slice();
