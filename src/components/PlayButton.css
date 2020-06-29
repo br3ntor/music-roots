@@ -1,6 +1,7 @@
 .PlayButton {
   width: 80px;
   cursor: pointer;
+  /* -webkit-tap-highlight-color: transparent; */
 }
 
 .play1 {

@@ -66,6 +66,11 @@
   color: #5b5b5b;
 }
 
+.next sup {
+  font-size: 25px;
+  transition: font-size 0.3s ease-in-out;
+}
+
 .off-left {
   position: absolute;
   height: 60px;
@@ -82,6 +87,7 @@
   transform: translate(-50%);
   height: 60px;
   width: 60px;
+  color: #2f2f2f;
 }
 
 /* prob rewrite these by moving to App.css */

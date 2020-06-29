@@ -26,7 +26,13 @@ export default function MusicBox(props) {
 
   // Using this state I need to write a function to handle swipes
   const [metronome, setMetronome] = useState({
-    currentNotes: ["Z", "X", notesArray[0], notesArray[1], notesArray[2]],
+    currentNotes: [
+      notesArray.slice(-2)[0],
+      notesArray.slice(-1)[0],
+      notesArray[0],
+      notesArray[1],
+      notesArray[2],
+    ],
     positions: ["off-left", "prev", "current", "next", "off-right"],
   });
 
@@ -57,6 +63,35 @@ export default function MusicBox(props) {
     }
     setIsplaying(!isPlaying);
     Tone.Transport.toggle();
+  };
+
+  // This is a reverse of the setMetronome codeblock below in the 2nd useEffect
+  // Makes the cards move in the opposite direction.
+  const goBack = () => {
+    setMetronome((freshState) => {
+      const notesCopy = [...freshState.currentNotes];
+
+      const previousClassIndex = freshState.positions.indexOf("prev");
+      const previousNote = notesCopy[previousClassIndex];
+
+      let noteToInject;
+      if (notesArray.indexOf(previousNote) === 0) {
+        noteToInject = notesArray[notesArray.length - 1];
+      } else {
+        noteToInject = notesArray[notesArray.indexOf(previousNote) - 1];
+      }
+
+      notesCopy[freshState.positions.indexOf("off-left")] = noteToInject;
+
+      const positionCopy = freshState.positions.slice();
+      const shifted = positionCopy.shift();
+      positionCopy.push(shifted);
+
+      return {
+        currentNotes: notesCopy,
+        positions: positionCopy,
+      };
+    });
   };
 
   console.log("outside useEffect");
@@ -169,9 +204,12 @@ export default function MusicBox(props) {
       <Notes
         currentNotes={metronome.currentNotes}
         positions={metronome.positions}
+        clickHandler={goBack}
       />
+      {/* <div className="bottom-box"> */}
       <PlayButton isPlaying={isPlaying} handleClick={handleClick} />
       <SettingsButton isPlaying={isPlaying} toggleSettings={toggleSettings} />
+      {/* </div> */}
     </div>
   );
 }
