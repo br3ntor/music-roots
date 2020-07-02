@@ -4,7 +4,7 @@ import "./Notes.css";
 export default function Notes(props) {
   // TODO: try using this to detect the swipe length and call goBack based on length
   const swipeLength = useRef(0);
-  let tempLength = 0;
+  // let tempLength = 0;
   const lastPosition = useRef(null);
 
   // I don't know if using refs here is the right approach or
@@ -17,12 +17,16 @@ export default function Notes(props) {
     if (lastPosition.current !== null) {
       const add = currentPosition - lastPosition.current;
       swipeLength.current += add;
-      tempLength += add;
-      console.log("ref: " + swipeLength.current);
-      console.log("no-ref: " + tempLength);
-      if (swipeLength.current > 100) {
+      // tempLength += add;
+      // console.log("ref: " + swipeLength.current);
+      // console.log("no-ref: " + tempLength);
+      if (swipeLength.current > 100 && swipeLength.current < 150) {
+        swipeLength.current = 1000;
+        props.swipeBack();
+      }
+      if (swipeLength.current < -100 && swipeLength.current > -150) {
         swipeLength.current = -1000;
-        props.clickHandler();
+        props.swipeForward();
       }
     }
 
@@ -31,7 +35,7 @@ export default function Notes(props) {
 
   const touchEnd = () => {
     swipeLength.current = 0;
-    tempLength = 0;
+    // tempLength = 0;
     lastPosition.current = null;
   };
 
@@ -40,7 +44,7 @@ export default function Notes(props) {
       onTouchMove={swipeTrigger}
       onTouchEnd={touchEnd}
       className="Notes"
-      onClick={props.clickHandler}
+      // onClick={props.clickHandler}
     >
       <div className={`note ${props.positions[0]}`}>
         <Note letter={props.currentNotes[0]} />

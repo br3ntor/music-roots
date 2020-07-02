@@ -94,6 +94,43 @@ export default function MusicBox(props) {
     });
   };
 
+  const goForward = () => {
+    setMetronome((freshState) => {
+      const notesCopy = [...freshState.currentNotes];
+
+      // Track which element in currentNotes which currently has "next" class
+      const nextClassIndex = freshState.positions.indexOf("next");
+      const nextNote = notesCopy[nextClassIndex];
+      // console.log(nextNote);
+
+      // Use the above to find the nextNote in the roots-lib sequence
+      let noteToInject;
+      if (notesArray.indexOf(nextNote) === notesArray.length - 1) {
+        noteToInject = notesArray[0];
+      } else {
+        noteToInject = notesArray[notesArray.indexOf(nextNote) + 1];
+      }
+
+      // Modify the notesCopy array to feed it the next note from the roots list
+      // The note that corresponds with the "off-right" class will change, so this
+      // line finds which one that is and changes it to the new note from the
+      // roots-lib file
+      notesCopy[freshState.positions.indexOf("off-right")] = noteToInject;
+
+      // *Old slice style to copy arr, not cool like the destructuring above*
+      // Next move the last element of the positions array to the front
+      // The order these arrays are manipulated here is important
+      const positionCopy = freshState.positions.slice();
+      const popped = positionCopy.pop();
+      positionCopy.unshift(popped);
+
+      return {
+        currentNotes: notesCopy,
+        positions: positionCopy,
+      };
+    });
+  };
+
   console.log("outside useEffect");
 
   // TODO: Figure out best way to implement this, with one or two useEffects.
@@ -139,40 +176,7 @@ export default function MusicBox(props) {
         // Using a setState to have react update and render the dom might not be
         // a precise way to trigger the animation. Might have to do it with a ref?
         // I'm pretty sure this is fine. The fixme above is more on my mind atm
-        setMetronome((freshState) => {
-          const notesCopy = [...freshState.currentNotes];
-
-          // Track which element in currentNotes which currently has "next" class
-          const nextClassIndex = freshState.positions.indexOf("next");
-          const nextNote = notesCopy[nextClassIndex];
-          // console.log(nextNote);
-
-          // Use the above to find the nextNote in the roots-lib sequence
-          let noteToInject;
-          if (notesArray.indexOf(nextNote) === notesArray.length - 1) {
-            noteToInject = notesArray[0];
-          } else {
-            noteToInject = notesArray[notesArray.indexOf(nextNote) + 1];
-          }
-
-          // Modify the notesCopy array to feed it the next note from the roots list
-          // The note that corresponds with the "off-right" class will change, so this
-          // line finds which one that is and changes it to the new note from the
-          // roots-lib file
-          notesCopy[freshState.positions.indexOf("off-right")] = noteToInject;
-
-          // *Old slice style to copy arr, not cool like the destructuring above*
-          // Next move the last element of the positions array to the front
-          // The order these arrays are manipulated here is important
-          const positionCopy = freshState.positions.slice();
-          const popped = positionCopy.pop();
-          positionCopy.unshift(popped);
-
-          return {
-            currentNotes: notesCopy,
-            positions: positionCopy,
-          };
-        });
+        goForward();
       }, time);
     }, Tone.Time(initialCountin + measureCount + "m") - 0.2);
 
@@ -204,7 +208,9 @@ export default function MusicBox(props) {
       <Notes
         currentNotes={metronome.currentNotes}
         positions={metronome.positions}
-        clickHandler={goBack}
+        // clickHandler={goBack}
+        swipeBack={goBack}
+        swipeForward={goForward}
       />
       {/* <div className="bottom-box"> */}
       <PlayButton isPlaying={isPlaying} handleClick={handleClick} />
